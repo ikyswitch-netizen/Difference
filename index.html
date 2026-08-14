@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPO OUTLIER</title>
+<style>
+html,body{margin:0;height:100%;background:#0a0d14;color:#f3f6ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}body{display:grid;place-items:center}.loading{font-size:14px;letter-spacing:.12em;color:#95a0b8}
+</style>
+</head>
+<body>
+<div class="loading">LOADING…</div>
+<script>
+(async()=>{
+  const files=[
+    'parts/part01.txt','parts/part02.txt','parts/part03.txt','parts/part04.txt',
+    'parts/part05.txt','parts/part06.txt','parts/part07.txt','parts/part08.txt',
+    'parts/part09.txt','parts/part10.txt','parts/part11.txt'
+  ];
+  try{
+    const chunks=await Promise.all(files.map(async f=>{
+      const r=await fetch(f,{cache:'no-store'});
+      if(!r.ok)throw new Error(f+' '+r.status);
+      return r.text();
+    }));
+    const html=chunks.join('');
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(err){
+    document.body.innerHTML='<pre style="white-space:pre-wrap;padding:24px">Load failed: '+String(err)+'</pre>';
+  }
+})();
+</script>
+</body>
+</html>
